@@ -1,6 +1,6 @@
 import discord
 
-def embed_creator(char_name, char_url, char_moveIcon, char_imgur, char_move, char_hitLevel, char_dmg, char_startup, char_block, char_hit, char_counterhit, char_notes):
+def embed_Move_Details(char_name, char_url, char_moveIcon, char_imgur, char_move, char_hitLevel, char_dmg, char_startup, char_block, char_hit, char_counterhit, char_notes):
     #I can live with this for now.
     #If values are null, use placeholder value to prevent Bad Request errors when sending message
     if not char_dmg:
@@ -40,3 +40,23 @@ def embed_creator(char_name, char_url, char_moveIcon, char_imgur, char_move, cha
     embed.add_field(name="Notes", value= char_notes)
 
     return embed
+
+def embed_Similar_Moves(similar_Moves_List, char_name, char_url, char_imgur):
+  embed = discord.Embed(title= char_name.title() + " Frame Data (RBNorway)", 
+                        colour=discord.Colour(0xFF5733), 
+                        url=char_url, 
+                        description="**Move Not Found.**")
+  embed.set_thumbnail(url=char_imgur)
+  embed.set_author(name= char_name.title(), url=char_url, icon_url="https://i.imgur.com/9YWQdwE.jpg")
+
+  moveList = ''
+  if (len(similar_Moves_List) == 0):
+    moveList = 'No similar moves found.'
+  for moveNum, move in enumerate(similar_Moves_List):
+    if moveNum <9:
+      moveList = moveList + move + '\n'
+
+  print('MoveList: ' + moveList)
+  embed.add_field(name='Similar moves', value=moveList)
+  
+  return embed
