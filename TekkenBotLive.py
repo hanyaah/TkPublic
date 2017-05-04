@@ -12,7 +12,6 @@ token = tokenFile.read()
 
 client = discord.Client()
 
-
 @client.event
 async def on_ready():
     #Display Login Status in Console
@@ -51,19 +50,26 @@ async def on_message(message):
                                                               user_Chara_Move, 
                                                               case_sensitive_toggle)
 
-          if not move_attribute_dict:
-            print('MOVE NOT FOUND: ' + user_Chara_Move)
-            print("======================")
-            await client.send_message(message.channel, 'Move not found for '+ '**' + user_Chara_Name.title() + '**')
+          if bool (move_attribute_dict): #if true, dictionary not empty
+            move_Found = 1
+          else:
+            move_Found = 0
+
+          if (move_Found == 1):
+            misc_details_Dict = tekkenFinder.get_Misc_Chara_Details(user_Chara_Name)
+            embedDict = {**move_attribute_dict, **misc_details_Dict}
+            embed_MoveFound = embedCreation.embed_Move_Details(**embedDict)
+
+            await client.send_message(message.channel, embed=embed_MoveFound)
             return
 
-          misc_details_Dict = tekkenFinder.get_Misc_Chara_Details(user_Chara_Name)
+          else:
+            misc_details_Dict = tekkenFinder.get_Misc_Chara_Details(user_Chara_Name)
+            similar_moves_list = tekkenFinder.get_Similar_Moves(user_Chara_Name, user_Chara_Move)
+            embed_SimilarMoves = embedCreation.embed_Similar_Moves(similar_moves_list, **misc_details_Dict)
 
-          embedDict = {**move_attribute_dict, **misc_details_Dict}
-
-          processedEmbed = embedCreation.embed_creator(**embedDict)
-
-          await client.send_message(message.channel, embed=processedEmbed)
+            await client.send_message(message.channel, embed = embed_SimilarMoves)
+            return
 
         elif characterExists == 0:
           await client.send_message(message.channel, 'Character not found: ' + '**' + user_Chara_Name + '**')
@@ -79,12 +85,17 @@ async def on_message(message):
                                     +'```'
                                     +'Notable Character Names: Use dvj for deviljin, jack for Jack7, raven for Master Raven, and chloe for Lucky Chloe.'                                    
                                     +'\n'
-                                    +'Use double exclamation marks (!!) for case-sensitive search.\n'
-                                    +'Moves with alternate notations are not currently supported due to how the moves are formatted.\n'
+                                    +'**Use double exclamation marks (!!) for case-sensitive search.**\n'
+                                    +'Implemented workaround for moves with alternate notations.\n'
                                     +'All frame data is sourced from RBNorway.org.'         
+                                )
+
+    elif message.content.startswith('.early2017'):
+        #help requested, send message reinforcements!
+        await client.send_message(message.channel, 
+                                    'X DAYS UNTIL EARLY 2017'         
                                 )
 
 #Starts the bot
 client.run(token)
-
 

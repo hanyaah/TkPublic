@@ -99,6 +99,9 @@ def move_Input_Standardizer(move_input):
   if move_input[:2].lower() == 'fc' and move_input[2] != '+':
     move_input = move_input.replace('fc', 'fc+')
     move_input = move_input.replace('FC', 'FC+')
+  if move_input[:2].lower() == 'cd':
+    move_input = move_input.replace('cd', 'f,n,d,df+')
+    move_input = move_input.replace('CD', 'f,n,d,df+')
 
   return move_input
 
