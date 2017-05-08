@@ -1,6 +1,7 @@
 import discord
 import asyncio
 import aiohttp
+import logging
 from discord.ext import commands
 
 #self-created modules below
@@ -15,6 +16,13 @@ description = 'Evil Bot World Domination!'
 
 prefix = '.'
 
+discord_logger = logging.getLogger('discord')
+discord_logger.setLevel(logging.CRITICAL)
+log = logging.getLogger()
+log.setLevel(logging.INFO)
+handler = logging.FileHandler(filename='combot.log', encoding='utf-8', mode='w')
+log.addHandler(handler)
+
 bot = commands.Bot(command_prefix=prefix, description=description)
 
 @bot.event
@@ -25,7 +33,7 @@ async def on_ready():
     print(bot.user.name)
     print(bot.user.id)
     print('<---------------------------->')
-    await bot.change_presence(game=discord.Game(name='you like a damn fiddle'))
+    await bot.change_presence(game=discord.Game(name='you like a damn fiddle || .help'))
 
 @bot.event
 async def on_message(message):
@@ -79,10 +87,12 @@ async def on_message(message):
           await bot.say('Character not found: ' + '**' + user_Chara_Name + '**')
 
     await bot.process_commands(message)
+    print('Processed Commands.')
 
-@bot.command()
+@bot.command(pass_context=True)
 async def early2017():
-    await client.send_message(message.channel, 'X DAYS UNTIL EARLY 2017')
+    print('Early 2017 function')
+    await bot.say('X DAYS UNTIL EARLY 2017')
 
 @bot.command(pass_context=True)
 @commands.has_permissions(administrator=True) 
@@ -98,14 +108,22 @@ async def ungagcombot(ctx):
     await bot.say('Ungagged Combot. Channel ID is: ' + channel)
     #TODO: Implement actual ungagging later
 
-@bot.command()
+@bot.command(pass_context=True)
 async def printServers(ctx):
-    if ctx.author.id != ('99090187560173568')
-    # ctx.author.id
-    serverListStr = ''
+    appinfo = await bot.application_info()
+    owner = appinfo.owner.id
+
+    if ctx.message.author.id != owner:
+        print('Non-bot owner called print server.')
+        await bot.say('Command restricted to bot owner only.')
+        return
+    else:
+        print('Bot Owner called print server.')
+
+    serverConctStr = ''
     for server in bot.servers:
-        serverListStr = serverListStr + server + '\n'
-    await bot.say('Server List ' + channel)
+        serverConctStr = serverConctStr + server.name + '\n' 
+    await bot.say('Server List: \n' + serverConctStr)
 
 @bot.event
 async def on_command_error(error, ctx):
@@ -114,3 +132,7 @@ async def on_command_error(error, ctx):
 
 #Starts the bot
 bot.run(token)
+handlers = log.handlers[:]
+for hdlr in handlers:
+    hdlr.close()
+    log.removeHandler(hdlr)
