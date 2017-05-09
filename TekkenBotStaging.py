@@ -12,7 +12,7 @@ import lib.tekkenFinder as tekkenFinder   #contains functions for finding charac
 tokenFile = open("token.txt", 'r')
 token = tokenFile.read()
 
-description = 'Evil Bot World Domination!'
+description = 'Tekken 7 Frame Data Bot!'
 
 prefix = '.'
 
@@ -24,6 +24,9 @@ handler = logging.FileHandler(filename='combot.log', encoding='utf-8', mode='w')
 log.addHandler(handler)
 
 bot = commands.Bot(command_prefix=prefix, description=description)
+
+combot_gagged_channels_File = open("lib/gagged_channels.txt", 'r')
+combot_gagged_channels = combot_gagged_channels_File.read().splitlines()
 
 @bot.event
 async def on_ready():
@@ -39,6 +42,13 @@ async def on_ready():
 async def on_message(message):
     if message.author.bot:
         return
+
+    if message.content != '.ungagcombot':
+        print('not ungagging combot')
+        for channelID in combot_gagged_channels:
+            if message.channel.id == channelID:
+                print('This channel is gagged')
+                return
 
     if message.content.startswith('!'):
         if message.content.startswith('!!'):
@@ -85,6 +95,7 @@ async def on_message(message):
 
         elif characterExists == 0:
           await bot.say('Character not found: ' + '**' + user_Chara_Name + '**')
+          return
 
     await bot.process_commands(message)
     print('Processed Commands.')
@@ -97,16 +108,30 @@ async def early2017():
 @bot.command(pass_context=True)
 @commands.has_permissions(administrator=True) 
 async def gagcombot(ctx):
-	channel = ctx.message.channel.id
-	await bot.say('mmmph! Gagging Combot. Channel ID is: ' + channel)
-	#TODO: Implement actual gagging later	
+    channel = ctx.message.channel.id
+    f = open("lib/gagged_channels.txt","a")
+    f.write(channel + '\n')
+    f.close()
+
+    combot_gagged_channels.append(channel)
+
+    await bot.say('mmmph! Gagging Combot. Channel ID is: ' + channel)
+    #TODO: Implement actual gagging later   
 
 @bot.command(pass_context=True)
 @commands.has_permissions(administrator=True) 
 async def ungagcombot(ctx):
     channel = ctx.message.channel
+    combot_gagged_channels.remove(channel)
+    #clear file contents
+    open("lib/gagged_channels.txt","w").close()
+
+    f = open("lib/gagged_channels.txt","a")
+    for channel in combot_gagged_channels:
+        f.write(channel+'\n')
+    f.close()
+
     await bot.say('Ungagged Combot. Channel ID is: ' + channel)
-    #TODO: Implement actual ungagging later
 
 @bot.command(pass_context=True)
 async def printServers(ctx):
