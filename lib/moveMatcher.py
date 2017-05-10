@@ -7,6 +7,8 @@ import lib.notationToEmoji as notationToEmoji
 
 def move_Compare_Main(chara_Move, charSpecSoup, is_case_sensitive):
   chara_Move = move_Input_Standardizer(chara_Move)
+  chara_Name = charSpecSoup.find("h2", {"class":"title"})
+  chara_Name = chara_Name.text.replace(' T7 Frames','')
 
   MatchAttempts = 0
   while (MatchAttempts <2):
@@ -25,11 +27,11 @@ def move_Compare_Main(chara_Move, charSpecSoup, is_case_sensitive):
         print('MOVE FOUND= ' + cell_move_compare)
         print("======================")
 
-        move_Attribute_Dict = move_Attr_Dict_Creator(moveAttribute_Cells)
+        move_Attribute_Dict = move_Attr_Dict_Creator(moveAttribute_Cells,chara_Name)
         return move_Attribute_Dict
 
     MatchAttempts +=1
-
+  #function returns None if no matches found
   return None
 
 def move_Compare_Strict(chara_Move, cell_move_compare, is_case_sensitive):
@@ -105,8 +107,9 @@ def move_Input_Standardizer(move_input):
 
   return move_input
 
-def move_Attr_Dict_Creator(moveAttribute_Cells):
+def move_Attr_Dict_Creator(moveAttribute_Cells, chara_Name):
   move_Attribute_Dict = dict()
+  move_Attribute_Dict['char_name'] = chara_Name.lower()
   move_Attribute_Dict['char_move'] = moveAttribute_Cells[0].text
   move_Attribute_Dict['char_hitLevel'] = moveAttribute_Cells[1].text
   move_Attribute_Dict['char_dmg'] = moveAttribute_Cells[2].text

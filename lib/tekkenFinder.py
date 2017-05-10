@@ -82,8 +82,7 @@ def get_Misc_Chara_Details(chara_Name):
   chara_WebUrl = charFullUrlDict[chara_Name]
   chara_ImgurPortrait = charImgurDict[chara_Name]
 
-  misc_chara_details_dict = {'char_name': chara_Name,
-                             'char_url' : chara_WebUrl,
+  misc_chara_details_dict = {'char_url' : chara_WebUrl,
                              'char_imgur' : chara_ImgurPortrait
                               }
 

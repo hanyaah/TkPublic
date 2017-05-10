@@ -56,7 +56,6 @@ def embed_Similar_Moves(similar_Moves_List, char_name, char_url, char_imgur):
     if moveNum <9:
       moveList = moveList + move + '\n'
 
-  print('MoveList: ' + moveList)
   embed.add_field(name='Similar moves', value=moveList)
   
   return embed
