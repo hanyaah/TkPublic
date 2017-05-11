@@ -3,6 +3,8 @@ import asyncio
 import aiohttp
 import logging
 from discord.ext import commands
+from datetime import datetime, date, time
+from dateutil.relativedelta import relativedelta
 
 #self-created modules below
 import lib.embedCreation as embedCreation #contains functions for creating an embed
@@ -102,8 +104,24 @@ async def on_message(message):
 
 @bot.command(pass_context=True)
 async def early2017():
-    print('Early 2017 function')
-    await bot.say('X DAYS UNTIL EARLY 2017')
+    emoteExample = '<:UP: 304165643282808833 >'
+    xdcrEmote = '<:XDCR:312223035782332417>'
+    gudTimesEmote = '<:GoodTime4Fans:312223536628629504'
+    arisaEmote = '<:Arisa:312223763636944899>'
+    releaseDate = datetime(2017, 6, 2, 0, 0, 0)
+    timeNow = datetime.now()
+    messageLeftSideStr = xdcrEmote+xdcrEmote+xdcrEmote
+    messageRightSideStr = gudTimesEmote + gudTimesEmote + gudTimesEmote
+
+    print('MEME MODE ACTIVATED')
+
+    releaseDate = datetime(2017, 6, 2, 0, 0, 0)
+    timeNow = datetime.now()
+    timeLeft = relativedelta(releaseDate, timeNow)
+    early2017Str = str(timeLeft.days) + ' days, ' + str(timeLeft.hours) + ' hours,' +str(timeLeft.minutes) + ' minutes UNTIL EARLY 2017'
+
+    embed_early2017 = embedCreation.embed_early2017(early2017Str,timeLeft)
+    await bot.say(embed = embed_early2017)
 
 @bot.command(pass_context=True)
 @commands.has_permissions(administrator=True) 
@@ -115,7 +133,7 @@ async def gagcombot(ctx):
     f.write(channel + '\n')
     f.close()
 
-    await bot.say('mmmph! Gagging Combot.') 
+    await bot.say('Mmmph! Gagging Combot.')
 
 @bot.command(pass_context=True)
 @commands.has_permissions(administrator=True) 
@@ -136,6 +154,7 @@ async def ungagcombot(ctx):
 
 @bot.command(pass_context=True)
 async def printServers(ctx):
+    #print list of servers bot is in
     appinfo = await bot.application_info()
     owner = appinfo.owner.id
 

@@ -1,4 +1,6 @@
 import discord
+from datetime import datetime, date, time
+from dateutil.relativedelta import relativedelta
 
 def embed_Move_Details(char_name, char_url, char_moveIcon, char_imgur, char_move, char_hitLevel, char_dmg, char_startup, char_block, char_hit, char_counterhit, char_notes):
     #I can live with this for now.
@@ -59,3 +61,15 @@ def embed_Similar_Moves(similar_Moves_List, char_name, char_url, char_imgur):
   embed.add_field(name='Similar moves', value=moveList)
   
   return embed
+
+def embed_early2017(early2017Str, timeLeft):
+    arisaEmote = '<:Arisa:306540081559240704>'
+    embed = discord.Embed(title= "DAYS UNTIL EARLY 2017",
+                          colour=discord.Colour(0xf4427a),
+                          url='http://early2017.com',
+                          description= '**' + early2017Str + '**')
+    embed.add_field(name= arisaEmote + "Days" + arisaEmote , value= str(timeLeft.days))
+    embed.add_field(name="Hours", value=str(timeLeft.hours))
+    embed.add_field(name="Minutes", value=str(timeLeft.minutes))
+    embed.set_thumbnail(url='http://i.imgur.com/8pLMgGv.png')
+    return embed
