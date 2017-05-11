@@ -82,8 +82,8 @@ async def on_message(message):
 
         if characterExists == 1:
           user_Chara_Name = user_Chara_Name.lower()
-          move_attribute_dict = tekkenFinder.get_Move_Details(user_Chara_Name, 
-                                                              user_Chara_Move, 
+          move_attribute_dict = tekkenFinder.get_Move_Details(user_Chara_Name,
+                                                              user_Chara_Move,
                                                               case_sensitive_toggle)
 
           if bool (move_attribute_dict): #if dictionary not empty, move found
@@ -91,7 +91,7 @@ async def on_message(message):
             await bot.send_message(message.channel, embed=embed_MoveFound)
             return
 
-          else: #dictionary is empty, move not found  
+          else: #dictionary is empty, move not found
             embed_SimilarMoves = await get_SimilarMoves_Embed(user_Chara_Name,user_Chara_Move)
             await bot.send_message(message.channel, embed=embed_SimilarMoves)
             return
@@ -124,7 +124,7 @@ async def early2017():
     await bot.say(embed = embed_early2017)
 
 @bot.command(pass_context=True)
-@commands.has_permissions(administrator=True) 
+@commands.has_permissions(administrator=True)
 async def gagcombot(ctx):
     channel = ctx.message.channel.id
     combot_gagged_channels.append(channel)
@@ -136,7 +136,7 @@ async def gagcombot(ctx):
     await bot.say('Mmmph! Gagging Combot.')
 
 @bot.command(pass_context=True)
-@commands.has_permissions(administrator=True) 
+@commands.has_permissions(administrator=True)
 async def ungagcombot(ctx):
     channel = ctx.message.channel.id
     if channel in combot_gagged_channels:
@@ -167,7 +167,7 @@ async def printServers(ctx):
 
     serverConctStr = ''
     for server in bot.servers:
-        serverConctStr = serverConctStr + server.name + '\n' 
+        serverConctStr = serverConctStr + server.name + '\n'
     await bot.say('Server List: \n' + serverConctStr)
 
 @bot.event
