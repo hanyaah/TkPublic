@@ -64,6 +64,17 @@ async def on_message(message):
         user_Chara_Name = user_message_list[0]
         user_Chara_Move = user_message_list[1]
 
+        if user_Chara_Name == 'dvj' or user_Chara_Name == 'deviljin':
+            user_Chara_Name = 'devil_jin'
+        if user_Chara_Name == 'jack':
+            user_Chara_Name = 'jack7'
+        if user_Chara_Name == 'raven':
+            user_Chara_Name = 'master_raven'
+        if user_Chara_Name == 'yoshi':
+            user_Chara_Name = 'yoshimitsu'
+        if user_Chara_Name == 'chloe':
+            user_Chara_Name = 'lucky_chloe'
+
         #TODO: IMPLEMENT CHARACTER SHORTHAND NAME CONVERTER, OR CHARACTER NAMELIST DISPLAY
         characterExists = tekkenFinder.does_char_exist(user_Chara_Name)
 
@@ -84,7 +95,7 @@ async def on_message(message):
             return
 
         elif characterExists == 0:
-          await bot.say('Character not found: ' + '**' + user_Chara_Name + '**')
+          await bot.send_message(message.channel, 'Character not found: ' + '**' + user_Chara_Name + '**')
           return
 
     await bot.process_commands(message)

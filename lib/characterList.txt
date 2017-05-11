@@ -4,7 +4,7 @@ asuka,http://rbnorway.org/asuka-t7-frames
 bob,http://rbnorway.org/bob-t7-frames
 bryan,http://rbnorway.org/bryan-t7-frames
 claudio,http://rbnorway.org/claudio-t7-frames
-devil jin,http://rbnorway.org/devil-jin-t7-frames
+devil_jin,http://rbnorway.org/devil-jin-t7-frames
 dragunov,http://rbnorway.org/dragunov-t7-frames
 eddy,http://rbnorway.org/eddy-t7-frames/
 eliza,http://rbnorway.org/eliza-t7-frames/
@@ -25,8 +25,8 @@ law,http://rbnorway.org/law-t7-frames
 lee,http://rbnorway.org/lee-t7-frames
 leo,http://rbnorway.org/leo-t7-frames
 lili,http://rbnorway.org/lili-t7-frames
-lucky chloe,http://rbnorway.org/lucky-chloe-t7-frames
-master raven,http://rbnorway.org/master-raven-t7-frames/
+lucky_chloe,http://rbnorway.org/lucky-chloe-t7-frames
+master_raven,http://rbnorway.org/master-raven-t7-frames/
 miguel,http://rbnorway.org/miguel-t7-frames
 nina,http://rbnorway.org/nina-t7-frames
 paul,http://rbnorway.org/paul-t7-frames

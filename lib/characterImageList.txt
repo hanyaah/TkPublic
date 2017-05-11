@@ -4,7 +4,7 @@ asuka,https://i.imgur.com/w9j6B9X.jpg
 bob,https://i.imgur.com/xS7RO6y.jpg
 bryan,https://i.imgur.com/PV9xTeM.jpg
 claudio,https://i.imgur.com/iCqFIii.jpg
-devil jin,https://i.imgur.com/bhZbto7.jpg
+devil_jin,https://i.imgur.com/bhZbto7.jpg
 dragunov,https://i.imgur.com/oHXfXO7.jpg
 eddy,https://i.imgur.com/rporala.jpg
 eliza,https://i.imgur.com/pf6xWtq.jpg
@@ -25,8 +25,8 @@ law,https://i.imgur.com/NWNEbMv.jpg
 lee,https://i.imgur.com/HhB6oCg.jpg
 leo,https://i.imgur.com/i1CO8SB.jpg
 lili,http://imgur.com/9gZWOcZ.jpg
-lucky chloe,https://i.imgur.com/iNXYpwT.jpg
-master raven,https://i.imgur.com/UZVFlhV.jpg
+lucky_chloe,https://i.imgur.com/iNXYpwT.jpg
+master_raven,https://i.imgur.com/UZVFlhV.jpg
 miguel,https://i.imgur.com/AxToATM.jpg
 nina,https://i.imgur.com/tLdu5Nq.jpg
 paul,https://i.imgur.com/vbjcEy1.jpg

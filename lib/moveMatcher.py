@@ -109,7 +109,7 @@ def move_Input_Standardizer(move_input):
 
 def move_Attr_Dict_Creator(moveAttribute_Cells, chara_Name):
   move_Attribute_Dict = dict()
-  move_Attribute_Dict['char_name'] = chara_Name.lower()
+  move_Attribute_Dict['char_name'] = chara_Name.lower().replace(' ', '_')
   move_Attribute_Dict['char_move'] = moveAttribute_Cells[0].text
   move_Attribute_Dict['char_hitLevel'] = moveAttribute_Cells[1].text
   move_Attribute_Dict['char_dmg'] = moveAttribute_Cells[2].text
