@@ -63,13 +63,45 @@ def embed_Similar_Moves(similar_Moves_List, char_name, char_url, char_imgur):
   return embed
 
 def embed_early2017(early2017Str, timeLeft):
-    arisaEmote = '<:Arisa:306540081559240704>'
-    embed = discord.Embed(title= "DAYS UNTIL EARLY 2017",
+    arisa_Emote = '<:Arisa:306540081559240704>'
+    opkick_Emote = '<:OPKICK:306556200626159616>'
+    lul_Emote = '<:LUL:306533696826245120>'
+    pre_days_left = str(timeLeft.days)
+    pre_hours_left = str(timeLeft.hours)
+    pre_minutes_left = str(timeLeft.minutes)
+
+    digitNumList = ["0","1", "2", "3","4","5","6","7","8","9"]
+    wordNumList = [":zero:", ":one:", ":two:", ":three:",":four:",":five:",":six:",":seven:",":eight:",":nine:"]
+
+    numConversionDict = {}
+    for i in range(len(digitNumList)):
+        numConversionDict[digitNumList[i]] = wordNumList[i]
+
+    days_left = ''
+    for digit in pre_days_left:
+        for digitNum in numConversionDict:
+            if digit == digitNum:
+                days_left = days_left + numConversionDict[digitNum]
+
+    hours_left = ''
+    for digit in pre_hours_left:
+        for digitNum in numConversionDict:
+            if digit == digitNum:
+                hours_left = hours_left + numConversionDict[digitNum]
+
+    minutes_left = ''
+    for digit in pre_minutes_left:
+        for digitNum in numConversionDict:
+            if digit == digitNum:
+                minutes_left = minutes_left + numConversionDict[digitNum]
+
+    embed = discord.Embed(title= "Time Until  :regional_indicator_e::regional_indicator_a::regional_indicator_r::regional_indicator_l::regional_indicator_y: "
+                                 ":two::zero::one::seven:",
                           colour=discord.Colour(0xf4427a),
                           url='http://early2017.com',
                           description= '**' + early2017Str + '**')
-    embed.add_field(name= arisaEmote + "Days" + arisaEmote , value= str(timeLeft.days))
-    embed.add_field(name="Hours", value=str(timeLeft.hours))
-    embed.add_field(name="Minutes", value=str(timeLeft.minutes))
+    embed.add_field(name= arisa_Emote + days_left + " 🇩🇦🇾🇸" + arisa_Emote , value= '-')
+    embed.add_field(name= opkick_Emote + hours_left + "  🇭🇴🇺:regional_indicator_r:🇸" + opkick_Emote, value='-')
+    embed.add_field(name= lul_Emote + minutes_left + "  🇲:regional_indicator_i:🇳:regional_indicator_u:🇹🇪:regional_indicator_s:" + lul_Emote, value='-')
     embed.set_thumbnail(url='http://i.imgur.com/8pLMgGv.png')
     return embed
