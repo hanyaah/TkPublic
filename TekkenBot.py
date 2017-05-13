@@ -38,11 +38,17 @@ async def on_ready():
     print(bot.user.name)
     print(bot.user.id)
     print('<---------------------------->')
-    await bot.change_presence(game=discord.Game(name='you like a damn fiddle.'))
+    while 1 ==1 :
+        await bot.change_presence(game=discord.Game(name='YouLikeADamnFiddle'))
+        await asyncio.sleep(360)
+        await bot.change_presence(game=discord.Game(name='.help for assistance'))
+        await asyncio.sleep(360)
 
 @bot.event
 async def on_message(message):
-
+    #check if message author is a bot
+    if message.author.bot:
+        return
     if await is_Gagged(message) == True:
         return
 
@@ -104,21 +110,14 @@ async def on_message(message):
 
 @bot.command(pass_context=True)
 async def early2017():
-    emoteExample = '<:UP: 304165643282808833 >'
-    xdcrEmote = '<:XDCR:312223035782332417>'
-    gudTimesEmote = '<:GoodTime4Fans:312223536628629504'
+    """Don't let your memes be dreams."""
     arisaEmote = '<:Arisa:312223763636944899>'
-    releaseDate = datetime(2017, 6, 2, 0, 0, 0)
-    timeNow = datetime.now()
-    messageLeftSideStr = xdcrEmote+xdcrEmote+xdcrEmote
-    messageRightSideStr = gudTimesEmote + gudTimesEmote + gudTimesEmote
-
     print('MEME MODE ACTIVATED')
 
     releaseDate = datetime(2017, 6, 2, 0, 0, 0)
     timeNow = datetime.now()
     timeLeft = relativedelta(releaseDate, timeNow)
-    early2017Str = str(timeLeft.days) + ' days, ' + str(timeLeft.hours) + ' hours,' +str(timeLeft.minutes) + ' minutes UNTIL EARLY 2017'
+    early2017Str = str(timeLeft.days) + ' days, ' + str(timeLeft.hours) + ' hours,' +str(timeLeft.minutes) + ' minutes UNTIL TEKKEN 7 RELEASES'
 
     embed_early2017 = embedCreation.embed_early2017(early2017Str,timeLeft)
     await bot.say(embed = embed_early2017)
@@ -126,6 +125,7 @@ async def early2017():
 @bot.command(pass_context=True)
 @commands.has_permissions(administrator=True)
 async def gagcombot(ctx):
+    """Gags Combot in this channel. Usable only by admin roles."""
     channel = ctx.message.channel.id
     combot_gagged_channels.append(channel)
 
@@ -138,6 +138,7 @@ async def gagcombot(ctx):
 @bot.command(pass_context=True)
 @commands.has_permissions(administrator=True)
 async def ungagcombot(ctx):
+    """Ungags Combot in this channel. Usable only by server admins."""
     channel = ctx.message.channel.id
     if channel in combot_gagged_channels:
         combot_gagged_channels.remove(channel)
@@ -154,7 +155,7 @@ async def ungagcombot(ctx):
 
 @bot.command(pass_context=True)
 async def printServers(ctx):
-    #print list of servers bot is in
+    """List servers with Combot. Cmd restricted to Bot Owner."""
     appinfo = await bot.application_info()
     owner = appinfo.owner.id
 
@@ -170,6 +171,11 @@ async def printServers(ctx):
         serverConctStr = serverConctStr + server.name + '\n'
     await bot.say('Server List: \n' + serverConctStr)
 
+@bot.command(pass_context=True)
+async def Frame_Data():
+    """Use ![character] [move], !! for case-sensitive search"""
+    return
+
 @bot.event
 async def on_command_error(error, ctx):
     if isinstance(error, commands.CheckFailure):
@@ -180,11 +186,8 @@ async def on_command_error(error, ctx):
 #==============================================
 async def is_Gagged(user_message):
     message = user_message
-    #check if message author is a bot
-    if message.author.bot:
-        return True
     #check if channel is gagged
-    elif message.content != '.ungagcombot':
+    if message.content != '.ungagcombot':
         for channelID in combot_gagged_channels:
             if message.channel.id == channelID:
                 return True

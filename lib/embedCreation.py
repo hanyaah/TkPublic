@@ -1,6 +1,7 @@
 import discord
 from datetime import datetime, date, time
 from dateutil.relativedelta import relativedelta
+from random import randint
 
 def embed_Move_Details(char_name, char_url, char_moveIcon, char_imgur, char_move, char_hitLevel, char_dmg, char_startup, char_block, char_hit, char_counterhit, char_notes):
     #I can live with this for now.
@@ -63,9 +64,22 @@ def embed_Similar_Moves(similar_Moves_List, char_name, char_url, char_imgur):
   return embed
 
 def embed_early2017(early2017Str, timeLeft):
-    arisa_Emote = '<:Arisa:306540081559240704>'
     opkick_Emote = '<:OPKICK:306556200626159616>'
     lul_Emote = '<:LUL:306533696826245120>'
+    xdcr_Emote = '<:XDCR:306542128010625035>'
+    gudTimes_Emote = '<:GoodTime4Fans:308593805362462721>'
+    leeGasm_Emote = '<:Leegasm:306554217533800448>'
+    murray_Emote = '<:tgMurray:309301734205816833>'
+    portrait_num = randint(0,4)
+    if portrait_num == 1:
+        thumbnailEmote = 'https://i.imgur.com/FMqJijI.png?1'
+    elif portrait_num == 2:
+        thumbnailEmote = 'http://i.imgur.com/8pLMgGv.png'
+    elif portrait_num == 3:
+        thumbnailEmote = 'https://i.imgur.com/iMtrObh.png'
+    elif portrait_num == 4:
+        thumbnailEmote = 'https://i.imgur.com/YNjuCFA.png'
+
     pre_days_left = str(timeLeft.days)
     pre_hours_left = str(timeLeft.hours)
     pre_minutes_left = str(timeLeft.minutes)
@@ -95,13 +109,13 @@ def embed_early2017(early2017Str, timeLeft):
             if digit == digitNum:
                 minutes_left = minutes_left + numConversionDict[digitNum]
 
-    embed = discord.Embed(title= "Time Until  :regional_indicator_e::regional_indicator_a::regional_indicator_r::regional_indicator_l::regional_indicator_y: "
-                                 ":two::zero::one::seven:",
+    embed = discord.Embed(title= "Time Until" + gudTimes_Emote+" :regional_indicator_e::regional_indicator_a::regional_indicator_r::regional_indicator_l::regional_indicator_y:" + gudTimes_Emote+
+                                 ":two::zero::one::seven:" + gudTimes_Emote,
                           colour=discord.Colour(0xf4427a),
                           url='http://early2017.com',
                           description= '**' + early2017Str + '**')
-    embed.add_field(name= arisa_Emote + days_left + " 🇩🇦🇾🇸" + arisa_Emote , value= '-')
-    embed.add_field(name= opkick_Emote + hours_left + "  🇭🇴🇺:regional_indicator_r:🇸" + opkick_Emote, value='-')
-    embed.add_field(name= lul_Emote + minutes_left + "  🇲:regional_indicator_i:🇳:regional_indicator_u:🇹🇪:regional_indicator_s:" + lul_Emote, value='-')
-    embed.set_thumbnail(url='http://i.imgur.com/8pLMgGv.png')
+    embed.add_field(name= xdcr_Emote + murray_Emote + days_left + "➖" + " 🇩🇦🇾🇸" + murray_Emote + xdcr_Emote, value= '-')
+    embed.add_field(name= gudTimes_Emote + opkick_Emote + hours_left + "➖" + "  🇭🇴🇺:regional_indicator_r:🇸" + opkick_Emote + gudTimes_Emote, value='-')
+    embed.add_field(name= leeGasm_Emote + lul_Emote+ minutes_left + "➖"+ "  🇲:regional_indicator_i:🇳:regional_indicator_u:🇹🇪:regional_indicator_s:" + lul_Emote + leeGasm_Emote, value='-')
+    embed.set_thumbnail(url=thumbnailEmote)
     return embed
