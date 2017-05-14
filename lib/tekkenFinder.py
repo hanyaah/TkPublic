@@ -1,5 +1,6 @@
 import urllib.request
 import os
+import json
 from bs4 import BeautifulSoup
 
 #self-created modules below
@@ -19,7 +20,7 @@ charLocalPageDict = dict()
 charFullUrlDict = dict()
 charImgurDict = dict()
 
-#Create Dictionaries for referring to locally stored webpages  
+#Create Dictionaries for referring to locally stored webpages
 for lines in charaLines:
     charVar = lines.split(",")
     charLocalPageDict[charVar[0]] = charVar[0] + '.html'
@@ -32,8 +33,6 @@ for lines in charaImageLines:
 #======================================================
 #====END Should probably put this stuff in a module====
 #======================================================
-
-
 def does_char_exist(user_Chara_Name):
   doesCharacterExist = 0
 
@@ -46,16 +45,55 @@ def does_char_exist(user_Chara_Name):
 
   return doesCharacterExist
 
-def charPage_BS4_Setup(chara_Name):
-  #Setup webpages for parsing by Beautiful Soup
-  #Get current working directory
+
+def charJson(chara_Name):
   dirStr = os.getcwd()
+  charFilePath = 'file:///' + dirStr + '/webpages/' + chara_Name
+  name = chara_Name.replace(".html", "")
+  jsonFilePath = dirStr + '/json/' + name + '.json'
 
-  charFilePath = 'file:///'+ dirStr + '/webpages/' + chara_Name
+    
+  try:
+        if os.path.isfile(jsonFilePath): #if path exists
+            file = open(jsonFilePath, 'r')
+            content = file.read()
+            jsonconvert = json.loads(content)
+            print(type(jsonconvert))
+        else:
+            charSpecific = urllib.request.urlopen(charFilePath).read()      
+            charPageSoup = BeautifulSoup(charSpecific, "html.parser")
+            table = charPageSoup.table
+            row = table.find_all('tr')
+            dic = []
+            for index in row:
+               col = index.find_all('td')
+               addmove = {
+                          "Command": col[0].text,
+                          "Hit level": col[1].text,
+                          "Damage": col[2].text,
+                          "Start up frame": col[3].text,
+                          "Block frame": col[4].text,
+                          "Hit frame": col[5].text,
+                          "Counter hit frame": col[6].text,
+                          "Notes": col[7].text
+                          }
+              
+               dic.append(addmove)
+            
+            file = open(jsonFilePath, 'w')
+            json.dump(dic, file)
+            #Probably have better way of doing
+            file = open(jsonFilePath, 'r')
+            content = file.read()
+            jsonconvert = json.loads(content)
+  except IOError as e:
+    print(e)
+  
+  return jsonconvert
 
-  #Create the soup...thing? What kinda data type is created anyway?
-  charSpecific = urllib.request.urlopen(charFilePath).read()
-  charPageSoup = BeautifulSoup(charSpecific, "html.parser")
+def charPage_BS4_Setup(chara_Name):
+  
+  charPageSoup = charJson(chara_Name)
 
   return charPageSoup
 
@@ -63,7 +101,7 @@ def get_Move_Details(chara_Name, chara_Move, is_case_sensitive):
   chara_Page_FileName = charLocalPageDict[chara_Name]
   charSpecSoup = charPage_BS4_Setup(chara_Page_FileName)
 
-  move_Attribute_Dict = moveMatcher.move_Compare_Main(chara_Move, charSpecSoup, is_case_sensitive)
+  move_Attribute_Dict = moveMatcher.move_Compare_Main(chara_Move, charSpecSoup, is_case_sensitive, chara_Name)
 
   if not move_Attribute_Dict:
     print('MOVE NOT FOUND: ' + chara_Move)

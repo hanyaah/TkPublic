@@ -5,34 +5,50 @@ from operator import itemgetter
 #Self Created Modules Below
 import lib.notationToEmoji as notationToEmoji
 
-def move_Compare_Main(chara_Move, charSpecSoup, is_case_sensitive):
+def move_Compare_Main(chara_Move, jsonconvert, is_case_sensitive, chara_Name):
   chara_Move = move_Input_Standardizer(chara_Move)
-  chara_Name = charSpecSoup.find("h2", {"class":"title"})
-  chara_Name = chara_Name.text.replace(' T7 Frames','')
+  found = list(filter(lambda x: (x['Command'] == chara_Move) , jsonconvert))
+  #assuming one is found
+  newdict = {
+              "Command": found[0]['Command'],
+              "Hit level": found[0]['Hit level'],
+              "Damage": found[0]['Damage'],
+              "Start up frame": found[0]['Start up frame'],
+              "Block frame": found[0]['Block frame'],
+              "Hit frame": found[0]['Hit frame'],
+              "Counter hit frame": found[0]['Counter hit frame'],
+              "Notes": found[0]['Notes']                        
+             }   
+  convert = move_Attr_Dict_Creator(newdict, chara_Name)
+  #chara_Name = charSpecSoup.find("h2", {"class":"title"})
+  #chara_Name = chara_Name.text.replace(' T7 Frames','')
 
-  MatchAttempts = 0
-  while (MatchAttempts <2):
-    for table_row in charSpecSoup.select("table tr"):
-      moveAttribute_Cells = table_row.findAll('td')
+  #MatchAttempts = 0
+  #while (MatchAttempts <2):
+  #  for table_row in charSpecSoup.select("table tr"):
+  #    moveAttribute_Cells = table_row.findAll('td')
 
-      cell_move_compare = moveAttribute_Cells[0].text
-      cell_move_compare = move_Input_Standardizer(cell_move_compare)
+  #    cell_move_compare = moveAttribute_Cells[0].text
+  #    cell_move_compare = move_Input_Standardizer(cell_move_compare)
 
-      if(MatchAttempts == 0):
-        is_move_found = move_Compare_Strict(chara_Move, cell_move_compare, is_case_sensitive)
-      else: #1:1 match failed, attempting substring match
-        is_move_found = move_Compare_Substring(chara_Move, cell_move_compare, is_case_sensitive)
+  #    if(MatchAttempts == 0):
+  #      is_move_found = move_Compare_Strict(chara_Move, cell_move_compare,
+  #      is_case_sensitive)
+  #    else: #1:1 match failed, attempting substring match
+  #      is_move_found = move_Compare_Substring(chara_Move, cell_move_compare,
+  #      is_case_sensitive)
 
-      if (is_move_found == 1):     
-        print('MOVE FOUND= ' + cell_move_compare)
-        print("======================")
+  #    if (is_move_found == 1):
+  #      print('MOVE FOUND= ' + cell_move_compare)
+  #      print("======================")
 
-        move_Attribute_Dict = move_Attr_Dict_Creator(moveAttribute_Cells,chara_Name)
-        return move_Attribute_Dict
+  #      move_Attribute_Dict =
+  #      move_Attr_Dict_Creator(moveAttribute_Cells,chara_Name)
+  #      return move_Attribute_Dict
 
-    MatchAttempts +=1
+  #  MatchAttempts +=1
   #function returns None if no matches found
-  return None
+  return convert
 
 def move_Compare_Strict(chara_Move, cell_move_compare, is_case_sensitive):
   is_move_found = 0
@@ -78,7 +94,7 @@ def move_Compare_Similar(user_Move, charSpecSoup):
 
   short_similar_moves_list = []
   for move in similar_moves_list:
-    if moves_Added <9:
+    if moves_Added < 9:
       short_similar_moves_list.append(move)
       moves_Added +=1
     else:
@@ -110,14 +126,13 @@ def move_Input_Standardizer(move_input):
 def move_Attr_Dict_Creator(moveAttribute_Cells, chara_Name):
   move_Attribute_Dict = dict()
   move_Attribute_Dict['char_name'] = chara_Name.lower().replace(' ', '_')
-  move_Attribute_Dict['char_move'] = moveAttribute_Cells[0].text
-  move_Attribute_Dict['char_hitLevel'] = moveAttribute_Cells[1].text
-  move_Attribute_Dict['char_dmg'] = moveAttribute_Cells[2].text
-  move_Attribute_Dict['char_startup'] = moveAttribute_Cells[3].text
-  move_Attribute_Dict['char_block'] = moveAttribute_Cells[4].text
-  move_Attribute_Dict['char_hit'] = moveAttribute_Cells[5].text
-  move_Attribute_Dict['char_counterhit'] = moveAttribute_Cells[6].text
-  move_Attribute_Dict['char_notes'] = moveAttribute_Cells[7].text
-  move_Attribute_Dict['char_moveIcon'] = notationToEmoji.icon_move_processor(moveAttribute_Cells[0].text)
-
+  move_Attribute_Dict['char_move'] = moveAttribute_Cells['Command']
+  move_Attribute_Dict['char_hitLevel'] = moveAttribute_Cells['Hit level']
+  move_Attribute_Dict['char_dmg'] = moveAttribute_Cells['Damage']
+  move_Attribute_Dict['char_startup'] = moveAttribute_Cells['Start up frame']
+  move_Attribute_Dict['char_block'] = moveAttribute_Cells['Block frame']
+  move_Attribute_Dict['char_hit'] = moveAttribute_Cells['Hit frame']
+  move_Attribute_Dict['char_counterhit'] = moveAttribute_Cells['Counter hit frame']
+  move_Attribute_Dict['char_notes'] = moveAttribute_Cells['Notes']
+  move_Attribute_Dict['char_moveIcon'] =  notationToEmoji.icon_move_processor(moveAttribute_Cells['Command'])
   return move_Attribute_Dict
