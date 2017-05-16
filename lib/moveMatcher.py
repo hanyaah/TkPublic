@@ -5,11 +5,20 @@ from operator import itemgetter
 #Self Created Modules Below
 import lib.notationToEmoji as notationToEmoji
 
+def FuzMatch(userInput, moves, ratio):
+  founds = fuzz.ratio(userInput, moves)
+  print(founds)
+  return founds > ratio
+
 def move_Compare_Main(chara_Move, jsonconvert, is_case_sensitive, chara_Name):
   chara_Move = move_Input_Standardizer(chara_Move)
-  found = list(filter(lambda x: (x['Command'] == chara_Move) , jsonconvert))
-  #assuming one is found
-  newdict = {
+  
+  found = list(filter(lambda x: (move_Input_Standardizer(x['Command']) == chara_Move) , jsonconvert))
+  if(found == []):
+    
+    return None
+  else:
+    newdict = {
               "Command": found[0]['Command'],
               "Hit level": found[0]['Hit level'],
               "Damage": found[0]['Damage'],
@@ -19,7 +28,8 @@ def move_Compare_Main(chara_Move, jsonconvert, is_case_sensitive, chara_Name):
               "Counter hit frame": found[0]['Counter hit frame'],
               "Notes": found[0]['Notes']                        
              }   
-  convert = move_Attr_Dict_Creator(newdict, chara_Name)
+  
+    convert = move_Attr_Dict_Creator(newdict, chara_Name)
   #chara_Name = charSpecSoup.find("h2", {"class":"title"})
   #chara_Name = chara_Name.text.replace(' T7 Frames','')
 
@@ -75,37 +85,65 @@ def move_Compare_Substring(user_move, cell_move, is_case_sensitive):
       is_move_found = 1
       return is_move_found
 
-def move_Compare_Similar(user_Move, charSpecSoup):
-  similar_moves_dict = dict()
+def move_Compare_Similar(user_Move, jsonconvert):
+  #similar_moves_dict = dict()
   user_Move = move_Input_Standardizer(user_Move)
 
-  for table_row in charSpecSoup.select("table tr"):
-      moveAttribute_Cells = table_row.findAll('td')
+  #for table_row in charSpecSoup.select("table tr"):
+  #    moveAttribute_Cells = table_row.findAll('td')
 
-      cell_move_compare = moveAttribute_Cells[0].text
-      cell_move_compare = move_Input_Standardizer(cell_move_compare)
+  #    cell_move_compare = moveAttribute_Cells[0].text
+  #    cell_move_compare = move_Input_Standardizer(cell_move_compare)
 
-      similarity = fuzz.ratio(user_Move, cell_move_compare)
+  #    similarity = fuzz.ratio(user_Move, cell_move_compare)
       
-      similar_moves_dict[moveAttribute_Cells[0].text] = similarity
+  #    similar_moves_dict[moveAttribute_Cells[0].text] = similarity
 
-  similar_moves_list = sorted(similar_moves_dict, key=similar_moves_dict.__getitem__, reverse=True)
+  #similar_moves_list = sorted(similar_moves_dict, key=similar_moves_dict.__getitem__, reverse=True)
   moves_Added = 0
-
+  #found = list(filter(lambda x: (FuzMatch(user_Move,move_Input_Standardizer(x['Command']), 0)) , jsonconvert))
+  compare = list()
+  for mov in jsonconvert:
+      command = str(mov['Command'])
+      rat = fuzz.ratio(user_Move,command)
+     
+      kV = {
+          "Command" : command,
+          "Similarity" : rat
+          }
+      compare.append(kV)
+  print('lol')
+  compare = bubble(compare)
   short_similar_moves_list = []
-  for move in similar_moves_list:
+  for i, item in enumerate(compare):
     if moves_Added < 9:
-      short_similar_moves_list.append(move)
+      short_similar_moves_list.append(compare[i]['Command'])
       moves_Added +=1
     else:
       break
 
   return short_similar_moves_list
 
+def bubble(lst, asc=False):
+    lst = list(lst)  # copy collection to list
+    for passesLeft in range(len(lst)-1, 0, -1):
+        for i in range(passesLeft):
+            if asc:
+                if lst[i]['Similarity'] > lst[i + 1]['Similarity']:
+                    lst[i]['Similarity'], lst[i + 1]['Similarity'] = lst[i + 1]['Similarity'], lst[i]['Similarity']
+                    lst[i]['Command'], lst[i + 1]['Command'] = lst[i + 1]['Command'], lst[i]['Command']
+            else:
+                if lst[i]['Similarity'] < lst[i + 1]['Similarity']:
+                    lst[i]['Similarity'], lst[i + 1]['Similarity'] = lst[i + 1]['Similarity'], lst[i]['Similarity']
+                    lst[i]['Command'], lst[i + 1]['Command'] = lst[i + 1]['Command'], lst[i]['Command']
+    return lst
+
+
 def move_Input_Standardizer(move_input):
   #remove spaces and slashes
   move_input = move_input.replace(" ", "")
   move_input = move_input.replace("/", "")
+  
 
   #translate WR moves into f,f,f
   if move_input[:2].lower() == 'wr':
@@ -120,7 +158,7 @@ def move_Input_Standardizer(move_input):
   if move_input[:2].lower() == 'cd':
     move_input = move_input.replace('cd', 'f,n,d,df+')
     move_input = move_input.replace('CD', 'f,n,d,df+')
-
+  print(move_input)
   return move_input
 
 def move_Attr_Dict_Creator(moveAttribute_Cells, chara_Name):
