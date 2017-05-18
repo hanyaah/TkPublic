@@ -1,0 +1,42 @@
+Task exception was never retrieved
+future: <Task finished coro=<Client._run_event() done, defined at C:\Users\Hann\AppData\Local\Programs\Python\Python36-32\lib\site-packages\discord\client.py:304> exception=OSError(22, 'Invalid argument')>
+Traceback (most recent call last):
+  File "C:\Users\Hann\AppData\Local\Programs\Python\Python36-32\lib\site-packages\discord\client.py", line 307, in _run_event
+    yield from getattr(self, event)(*args, **kwargs)
+  File "C:/Users/Hann/Documents/GitHub/TkPublic/TekkenBot.py", line 89, in on_message
+    characterExists = tekkenFinder.does_char_exist(user_Chara_Name)
+  File "C:\Users\Hann\Documents\GitHub\TkPublic\lib\tekkenFinder.py", line 42, in does_char_exist
+    print("\n======================")
+OSError: [Errno 22] Invalid argument
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Hann\AppData\Local\Programs\Python\Python36-32\lib\site-packages\discord\client.py", line 312, in _run_event
+    yield from self.on_error(event, *args, **kwargs)
+  File "C:\Users\Hann\AppData\Local\Programs\Python\Python36-32\lib\asyncio\coroutines.py", line 210, in coro
+    res = func(*args, **kw)
+  File "C:\Users\Hann\AppData\Local\Programs\Python\Python36-32\lib\site-packages\discord\client.py", line 337, in on_error
+    print('Ignoring exception in {}'.format(event_method), file=sys.stderr)
+OSError: [Errno 22] Invalid argument
+Task exception was never retrieved
+future: <Task finished coro=<Client._run_event() done, defined at C:\Users\Hann\AppData\Local\Programs\Python\Python36-32\lib\site-packages\discord\client.py:304> exception=OSError(22, 'Invalid argument')>
+Traceback (most recent call last):
+  File "C:\Users\Hann\AppData\Local\Programs\Python\Python36-32\lib\site-packages\discord\client.py", line 307, in _run_event
+    yield from getattr(self, event)(*args, **kwargs)
+  File "C:/Users/Hann/Documents/GitHub/TkPublic/TekkenBot.py", line 89, in on_message
+    characterExists = tekkenFinder.does_char_exist(user_Chara_Name)
+  File "C:\Users\Hann\Documents\GitHub\TkPublic\lib\tekkenFinder.py", line 42, in does_char_exist
+    print("\n======================")
+OSError: [Errno 22] Invalid argument
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\Hann\AppData\Local\Programs\Python\Python36-32\lib\site-packages\discord\client.py", line 312, in _run_event
+    yield from self.on_error(event, *args, **kwargs)
+  File "C:\Users\Hann\AppData\Local\Programs\Python\Python36-32\lib\asyncio\coroutines.py", line 210, in coro
+    res = func(*args, **kw)
+  File "C:\Users\Hann\AppData\Local\Programs\Python\Python36-32\lib\site-packages\discord\client.py", line 337, in on_error
+    print('Ignoring exception in {}'.format(event_method), file=sys.stderr)
+OSError: [Errno 22] Invalid argument

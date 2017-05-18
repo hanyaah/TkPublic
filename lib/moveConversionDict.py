@@ -84,7 +84,7 @@ stance = {'Vertical jump','Forward jump', 'DFLIP', 'Jump', 'TPORT', '(Hold)', '(
           ,'BT', 'GOL', 'SG', 'FC', 'RAI', 'HS', 'LFF', 'RFF', 'LFS', 'RFS', 'CSK', 'SIT', 'ZEN', 'CDS', 'SWS', 'SWB', 'HAR', 'DVK'
           ,'ALI', 'JGS', '(one spin)', '(two spins)', '(three spins)', '(four spins)', '(five spins)', '(Very long hold)', '(CH in front)'
           ,'When hit f', 'SEN', '(Opponent in air)', '(Close)', '(When hit )', '(to DSS)', 'DSS', 'RDS','DS', '(to TFS)', 'TFS-success', 'TFS-whiff '
-          ,'(Hold as long as possible)', 'HMS', '(Hit in front)', 'MS', 'Sway', '(First hit only)', '(First hit whiffs)', '(Second hit only)','(Second hit miss)', 'KNK', 'BOK'
+          ,'(Hold as long as possible)', 'HMS', 'HBS', '(Hit in front)', 'MS', 'Sway', '(First hit only)', '(First hit whiffs)', '(Second hit only)','(Second hit miss)', 'KNK', 'BOK'
           ,'From certain moves', 'TWISTL', 'TWISTR', 'SCT', '(to HAZ)', 'HAZ', '(Second part)', 'SAV', '(Second hit ducked)'
           ,'(Only first hit on counter)','Tech (Far)', '(Far)', 'Tech', '(Crouching or far)', 'SNK', 'to Weave', 'When parry successful'
           ,'(to ALB)','ALB','Ext DCK','DCK', 'PAB','PKB', 'SWY','FLIK', '(After on step)', '(After two step)', '(After three step)', 'AOP', 'PDP'

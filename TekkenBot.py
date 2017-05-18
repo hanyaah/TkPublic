@@ -40,9 +40,11 @@ async def on_ready():
     print('<---------------------------->')
     while 1 ==1 :
         await bot.change_presence(game=discord.Game(name='YouLikeADamnFiddle'))
-        await asyncio.sleep(360)
+        await asyncio.sleep(200)
         await bot.change_presence(game=discord.Game(name='.help for assistance'))
-        await asyncio.sleep(360)
+        await asyncio.sleep(1000)
+        await bot.change_presence(game=discord.Game(name='Riri Toppu Tieru'))
+        await asyncio.sleep(200)
 
 @bot.event
 async def on_message(message):
@@ -111,7 +113,6 @@ async def on_message(message):
 @bot.command(pass_context=True)
 async def early2017():
     """Don't let your memes be dreams."""
-    arisaEmote = '<:Arisa:312223763636944899>'
     print('MEME MODE ACTIVATED')
 
     releaseDate = datetime(2017, 6, 2, 0, 0, 0)
@@ -175,6 +176,21 @@ async def printServers(ctx):
 async def Frame_Data():
     """Use ![character] [move], !! for case-sensitive search"""
     return
+
+#TODO: This block of code to be used when character html pages are updated, do not edit
+# @bot.command(pass_context=True)
+# async def convertAll(ctx):
+#     """Converts all """
+#     appinfo = await bot.application_info()
+#     owner = appinfo.owner.id
+#
+#     if ctx.message.author.id != owner:
+#         await bot.say('Hann forgot to hide this function from help listing, lul')
+#         return
+#     else:
+#         await bot.say('Converting all character htmls to json.')
+#     tekkenFinder.charJsonMassConverter()
+#     return
 
 @bot.event
 async def on_command_error(error, ctx):
