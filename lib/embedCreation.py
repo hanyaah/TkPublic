@@ -109,7 +109,7 @@ def embed_early2017(early2017Str, timeLeft):
             if digit == digitNum:
                 minutes_left = minutes_left + numConversionDict[digitNum]
 
-    embed = discord.Embed(title= "Time Until" + gudTimes_Emote+" :regional_indicator_e::regional_indicator_a::regional_indicator_r::regional_indicator_l::regional_indicator_y:" + gudTimes_Emote+
+    embed = discord.Embed(title= "Time Until" + gudTimes_Emote + " :regional_indicator_e::regional_indicator_a::regional_indicator_r::regional_indicator_l::regional_indicator_y:" + gudTimes_Emote+
                                  ":two::zero::one::seven:" + gudTimes_Emote,
                           colour=discord.Colour(0xf4427a),
                           url='http://early2017.com',

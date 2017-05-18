@@ -13,6 +13,7 @@ import lib.tekkenFinder as tekkenFinder   #contains functions for finding charac
 #Nothing to see here, move along
 tokenFile = open("token.txt", 'r')
 token = tokenFile.read()
+tokenFile.close()
 
 description = 'Tekken 7 Frame Data Bot!'
 
@@ -38,12 +39,14 @@ async def on_ready():
     print(bot.user.name)
     print(bot.user.id)
     print('<---------------------------->')
-    while 1 ==1 :
+    while 1 == 1:
         await bot.change_presence(game=discord.Game(name='YouLikeADamnFiddle'))
         await asyncio.sleep(200)
         await bot.change_presence(game=discord.Game(name='.help for assistance'))
         await asyncio.sleep(1000)
         await bot.change_presence(game=discord.Game(name='Riri Toppu Tieru'))
+        await asyncio.sleep(200)
+        await bot.change_presence(game=discord.Game(name='EARLY 2017'))
         await asyncio.sleep(200)
 
 @bot.event
