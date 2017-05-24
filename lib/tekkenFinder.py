@@ -35,16 +35,14 @@ for lines in charaImageLines:
 #====END Should probably put this stuff in a module====
 #======================================================
 def does_char_exist(user_Chara_Name):
-  doesCharacterExist = 0
 
   for characterName in charLocalPageDict:
     if user_Chara_Name.lower() == characterName:
       print("\n======================")
       print("Chara Found: " + user_Chara_Name)
-      doesCharacterExist = 1
-      break
+      return True
 
-  return doesCharacterExist
+  return False
 
 def charJsonMassConverter():
     for game_character in charLocalPageDict:
