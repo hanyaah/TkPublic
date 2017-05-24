@@ -127,6 +127,12 @@ async def early2017():
     await bot.say(embed = embed_early2017)
 
 @bot.command(pass_context=True)
+async def legend():
+    """Displays commonly used abbreviations, notations and their corresponding input icons."""
+    embed_legend = embedCreation.embed_legend()
+    await bot.say(embed = embed_legend)
+
+@bot.command(pass_context=True)
 @commands.has_permissions(administrator=True)
 async def gagcombot(ctx):
     """Gags Combot in this channel. Usable only by admin roles."""
