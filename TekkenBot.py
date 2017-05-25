@@ -39,7 +39,7 @@ async def on_ready():
     print(bot.user.name)
     print(bot.user.id)
     print('<---------------------------->')
-    while 1 == 1:
+    while True:
         await bot.change_presence(game=discord.Game(name='YouLikeADamnFiddle'))
         await asyncio.sleep(200)
         await bot.change_presence(game=discord.Game(name='.help for assistance'))
@@ -54,14 +54,14 @@ async def on_message(message):
     #check if message author is a bot
     if message.author.bot:
         return
-    if await is_Gagged(message) == True:
+    if await is_Gagged(message):
         return
 
     if message.content.startswith('!'):
         if message.content.startswith('!!'):
-          case_sensitive_toggle = 1
+          case_sensitive_toggle = True
         else:
-          case_sensitive_toggle = 0
+          case_sensitive_toggle = False
 
         #message content should look like this
         #![character] [move]
@@ -91,13 +91,13 @@ async def on_message(message):
         #TODO: IMPLEMENT CHARACTER SHORTHAND NAME CONVERTER, OR CHARACTER NAMELIST DISPLAY
         characterExists = tekkenFinder.does_char_exist(user_Chara_Name)
 
-        if characterExists == 1:
+        if characterExists:
           user_Chara_Name = user_Chara_Name.lower()
           move_attribute_dict = tekkenFinder.get_Move_Details(user_Chara_Name,
                                                               user_Chara_Move,
                                                               case_sensitive_toggle)
 
-          if bool (move_attribute_dict): #if dictionary not empty, move found
+          if move_attribute_dict: #if dictionary not empty, move found
             embed_MoveFound = await get_MoveFound_Embed(**move_attribute_dict)
             await bot.send_message(message.channel, embed=embed_MoveFound)
             return
@@ -107,7 +107,7 @@ async def on_message(message):
             await bot.send_message(message.channel, embed=embed_SimilarMoves)
             return
 
-        elif characterExists == 0:
+        else:
           await bot.send_message(message.channel, 'Character not found: ' + '**' + user_Chara_Name + '**')
           return
 
@@ -216,8 +216,8 @@ async def is_Gagged(user_message):
         for channelID in combot_gagged_channels:
             if message.channel.id == channelID:
                 return True
-    else:
-        return False
+    
+    return False
 
 async def get_MoveFound_Embed(**move_attribute_dict):
     misc_details_Dict = tekkenFinder.get_Misc_Chara_Details(move_attribute_dict['char_name'])

@@ -7,16 +7,17 @@ import lib.notationToEmoji as notationToEmoji
 
 def move_Compare_Main(chara_Move, characterMoves_json, is_case_sensitive, chara_Name):
   chara_Move = move_Input_Standardizer(chara_Move)
-  if is_case_sensitive == 0:
-    move = list(filter(lambda x: (move_Input_Standardizer(x['Command'].lower()) == chara_Move.lower()), characterMoves_json))
-  else:
+  if is_case_sensitive:
     move = list(filter(lambda x: (move_Input_Standardizer(x['Command']) == chara_Move), characterMoves_json))
+  else:
+    move = list(filter(lambda x: (move_Input_Standardizer(x['Command'].lower()) == chara_Move.lower()), characterMoves_json))
+    
 
-  if(move == []):
+  if not move:
     #if Move not found, look for substring match
     move = list(filter(lambda x: (chara_Move.lower() in move_Input_Standardizer(x['Command'].lower())), characterMoves_json))
 
-  if (move == []):
+  if not move:
     #if move still not found, return None
     return None
   else:
@@ -32,7 +33,7 @@ def move_Compare_Main(chara_Move, characterMoves_json, is_case_sensitive, chara_
              }   
   
     convert = move_Attr_Dict_Creator(moveDict, chara_Name)
-  return convert
+    return convert
 
 def move_Compare_Similar(user_Move, chara_json):
   user_Move = move_Input_Standardizer(user_Move.lower())
