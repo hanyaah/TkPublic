@@ -1,6 +1,4 @@
 import discord
-from datetime import datetime, date, time
-from dateutil.relativedelta import relativedelta
 from random import randint
 
 def embed_Move_Details(char_name, char_url, char_moveIcon, char_imgur, char_move, char_hitLevel, char_dmg, char_startup, char_block, char_hit, char_counterhit, char_notes):
@@ -168,6 +166,6 @@ def embed_itistime():
               ":two::zero::one::seven:" + gudTimes_Emote,
         colour=discord.Colour(0xf4427a),
         url='http://early2017.com',
-        description='**EARLY 2017 IS UPON US.**')
+        description='**EARLY 2017 IS UPON US. GO PLAY THE DAMN GAME, WHAT ARE YOU WAITING FOR?**')
     embed.set_image(url="http://i.imgur.com/ERtgvDo.png")
     return embed

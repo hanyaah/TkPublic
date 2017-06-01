@@ -1,6 +1,5 @@
 import discord
 import asyncio
-import aiohttp
 import logging
 from discord.ext import commands
 from datetime import datetime, date, time
@@ -118,7 +117,7 @@ async def early2017():
     """Don't let your memes be dreams."""
     print('MEME MODE ACTIVATED')
 
-    releaseDate = datetime(2017, 6, 2, 0, 0, 0)
+    releaseDate = datetime(2017, 6, 1, 21, 45, 0)
     timeNow = datetime.now()
     if(timeNow > releaseDate):
         embed_kungfutime = embedCreation.embed_itistime()
