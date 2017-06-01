@@ -105,19 +105,17 @@ def embed_early2017(early2017Str, timeLeft):
     gudTimes_Emote = '<:GoodTime4Fans:308593805362462721>'
     leeGasm_Emote = '<:Leegasm:306554217533800448>'
     murray_Emote = '<:tgMurray:309301734205816833>'
-    portrait_num = randint(0,4)
-    if portrait_num == 1:
-        thumbnailEmote = 'https://i.imgur.com/FMqJijI.png?1'
-    elif portrait_num == 2:
-        thumbnailEmote = 'http://i.imgur.com/8pLMgGv.png'
-    elif portrait_num == 3:
-        thumbnailEmote = 'https://i.imgur.com/iMtrObh.png'
-    elif portrait_num == 4:
-        thumbnailEmote = 'https://i.imgur.com/YNjuCFA.png'
+
+    portrait_list = ["https://i.imgur.com/FMqJijI.png?1",
+                     "http://i.imgur.com/8pLMgGv.png",
+                     "https://i.imgur.com/iMtrObh.png",
+                     "https://i.imgur.com/zfXNTXw.png"]
+    portrait_num = randint(0,3)
 
     pre_days_left = str(timeLeft.days)
     pre_hours_left = str(timeLeft.hours)
     pre_minutes_left = str(timeLeft.minutes)
+
 
     digitNumList = ["0","1", "2", "3","4","5","6","7","8","9"]
     wordNumList = [":zero:", ":one:", ":two:", ":three:",":four:",":five:",":six:",":seven:",":eight:",":nine:"]
@@ -144,6 +142,7 @@ def embed_early2017(early2017Str, timeLeft):
             if digit == digitNum:
                 minutes_left = minutes_left + numConversionDict[digitNum]
 
+
     embed = discord.Embed(title= "Time Until" + gudTimes_Emote + " :regional_indicator_e::regional_indicator_a::regional_indicator_r::regional_indicator_l::regional_indicator_y:" + gudTimes_Emote+
                                  ":two::zero::one::seven:" + gudTimes_Emote,
                           colour=discord.Colour(0xf4427a),
@@ -152,5 +151,23 @@ def embed_early2017(early2017Str, timeLeft):
     embed.add_field(name= xdcr_Emote + murray_Emote + days_left + "➖" + " 🇩🇦🇾🇸" + murray_Emote + xdcr_Emote, value= '-')
     embed.add_field(name= gudTimes_Emote + opkick_Emote + hours_left + "➖" + "  🇭🇴🇺:regional_indicator_r:🇸" + opkick_Emote + gudTimes_Emote, value='-')
     embed.add_field(name= leeGasm_Emote + lul_Emote+ minutes_left + "➖"+ "  🇲:regional_indicator_i:🇳:regional_indicator_u:🇹🇪:regional_indicator_s:" + lul_Emote + leeGasm_Emote, value='-')
-    embed.set_thumbnail(url=thumbnailEmote)
+    embed.set_thumbnail(url=portrait_list[portrait_num])
+
+    return embed
+
+def embed_itistime():
+    opkick_Emote = '<:OPKICK:306556200626159616>'
+    lul_Emote = '<:LUL:306533696826245120>'
+    xdcr_Emote = '<:XDCR:306542128010625035>'
+    gudTimes_Emote = '<:GoodTime4Fans:308593805362462721>'
+    leeGasm_Emote = '<:Leegasm:306554217533800448>'
+    murray_Emote = '<:tgMurray:309301734205816833>'
+
+    embed = discord.Embed(
+        title="Time Until" + gudTimes_Emote + " :regional_indicator_e::regional_indicator_a::regional_indicator_r::regional_indicator_l::regional_indicator_y:" + gudTimes_Emote +
+              ":two::zero::one::seven:" + gudTimes_Emote,
+        colour=discord.Colour(0xf4427a),
+        url='http://early2017.com',
+        description='**EARLY 2017 IS UPON US.**')
+    embed.set_image(url="http://i.imgur.com/ERtgvDo.png")
     return embed

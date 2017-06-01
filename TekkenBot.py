@@ -120,11 +120,16 @@ async def early2017():
 
     releaseDate = datetime(2017, 6, 2, 0, 0, 0)
     timeNow = datetime.now()
+    if(timeNow > releaseDate):
+        embed_kungfutime = embedCreation.embed_itistime()
+        await bot.say(embed=embed_kungfutime)
+        return
+
     timeLeft = relativedelta(releaseDate, timeNow)
     early2017Str = str(timeLeft.days) + ' days, ' + str(timeLeft.hours) + ' hours,' +str(timeLeft.minutes) + ' minutes UNTIL TEKKEN 7 RELEASES'
 
-    embed_early2017 = embedCreation.embed_early2017(early2017Str,timeLeft)
-    await bot.say(embed = embed_early2017)
+    embed_early2017 = embedCreation.embed_early2017(early2017Str, timeLeft)
+    await bot.say(embed=embed_early2017)
 
 @bot.command(pass_context=True)
 async def legend():
