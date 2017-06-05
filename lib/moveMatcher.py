@@ -66,20 +66,17 @@ def move_Input_Standardizer(move_input):
 
   #translate shorthand into full notation
   if move_input[:2].lower() == 'wr' and move_input[2] != '+':
-    move_input = move_input.replace('wr', 'f,f,f+')
-    move_input = move_input.replace('WR', 'f,f,f+')
+    move_input = move_input.lower().replace('wr', 'f,f,f+')
+  if move_input[:2].lower() == 'ss' and move_input[2] != '+':
+    move_input = move_input.lower().replace('ss', 'ss+')
   if move_input[:2].lower() == 'ws' and move_input[2] != '+':
-    move_input = move_input.replace('ws', 'ws+')
-    move_input = move_input.replace('WS', 'ws+')
+    move_input = move_input.lower().replace('ws', 'ws+')
   if move_input[:2].lower() == 'fc' and move_input[2] != '+':
-    move_input = move_input.replace('fc', 'fc+')
-    move_input = move_input.replace('FC', 'FC+')
+    move_input = move_input.lower().replace('fc', 'fc+')
   if move_input[:2].lower() == 'cd' and move_input[2] != '+':
-    move_input = move_input.replace('cd', 'f,n,d,df+')
-    move_input = move_input.replace('CD', 'f,n,d,df+')
+    move_input = move_input.lower().replace('cd', 'f,n,d,df+')
   if move_input[:3].lower() == 'qcf' and move_input[2] != '+':
-    move_input = move_input.replace('qcf', 'qcf+')
-    move_input = move_input.replace('QCF', 'qcf+')
+    move_input = move_input.lower().replace('qcf', 'qcf+')
   return move_input
 
 def move_Attr_Dict_Creator(moveAttribute_Cells, chara_Name):

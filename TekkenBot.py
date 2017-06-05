@@ -14,7 +14,7 @@ tokenFile = open("token.txt", 'r')
 token = tokenFile.read()
 tokenFile.close()
 
-description = 'Tekken 7 Frame Data Bot!'
+description = 'A Tekken 7 Frame Data Bot made by Hann.'
 
 prefix = '.'
 
@@ -40,18 +40,20 @@ async def on_ready():
     print('<---------------------------->')
     while True:
         await bot.change_presence(game=discord.Game(name='YouLikeADamnFiddle'))
-        await asyncio.sleep(200)
+        await asyncio.sleep(30)
         await bot.change_presence(game=discord.Game(name='.help for assistance'))
-        await asyncio.sleep(1000)
+        await asyncio.sleep(10000)
         await bot.change_presence(game=discord.Game(name='Riri Toppu Tieru'))
-        await asyncio.sleep(200)
+        await asyncio.sleep(30)
         await bot.change_presence(game=discord.Game(name='EARLY 2017'))
-        await asyncio.sleep(200)
+        await asyncio.sleep(30)
 
 @bot.event
 async def on_message(message):
     #check if message author is a bot
     if message.author.bot:
+        if message.author.id == bot.user.id:
+            await bot_message_cleanup(message)
         return
     if await is_Gagged(message):
         return
@@ -76,7 +78,7 @@ async def on_message(message):
         user_Chara_Name = user_message_list[0]
         user_Chara_Move = user_message_list[1]
 
-        if user_Chara_Name == 'dvj' or user_Chara_Name == 'deviljin':
+        if user_Chara_Name == 'dvj' or user_Chara_Name == 'deviljin' or user_Chara_Name == 'devil':
             user_Chara_Name = 'devil_jin'
         if user_Chara_Name == 'jack':
             user_Chara_Name = 'jack7'
@@ -84,7 +86,7 @@ async def on_message(message):
             user_Chara_Name = 'master_raven'
         if user_Chara_Name == 'yoshi':
             user_Chara_Name = 'yoshimitsu'
-        if user_Chara_Name == 'chloe':
+        if user_Chara_Name == 'chloe' or user_Chara_Name == 'lucky':
             user_Chara_Name = 'lucky_chloe'
 
         #TODO: IMPLEMENT CHARACTER SHORTHAND NAME CONVERTER, OR CHARACTER NAMELIST DISPLAY
@@ -99,12 +101,13 @@ async def on_message(message):
           if move_attribute_dict: #if dictionary not empty, move found
             embed_MoveFound = await get_MoveFound_Embed(**move_attribute_dict)
             await bot.send_message(message.channel, embed=embed_MoveFound)
-            return
 
           else: #dictionary is empty, move not found
             embed_SimilarMoves = await get_SimilarMoves_Embed(user_Chara_Name,user_Chara_Move)
             await bot.send_message(message.channel, embed=embed_SimilarMoves)
-            return
+
+          await user_message_cleanup(message)
+          return
 
         else:
           await bot.send_message(message.channel, 'Character not found: ' + '**' + user_Chara_Name + '**')
@@ -190,6 +193,12 @@ async def Frame_Data():
     """Use ![character] [move], !! for case-sensitive search"""
     return
 
+@bot.command(pass_context=True)
+async def invite(ctx):
+    """Invite the bot to your server."""
+    await bot.say('Use this link to add me to your server. \nhttps://discordapp.com/oauth2/authorize?client_id=302295833208946689&scope=bot&permissions=11264')
+    return
+
 #TODO: This block of code to be used when character html pages are updated, do not edit
 # @bot.command(pass_context=True)
 # async def convertAll(ctx):
@@ -213,6 +222,23 @@ async def on_command_error(error, ctx):
 #==============================================
 #==========NON COMMAND FUNCTIONS===============
 #==============================================
+async def bot_message_cleanup(message):
+    if message.channel.is_private:
+        return
+    await asyncio.sleep(100)
+    await bot.delete_message(message)
+    print('Deleted self message.')
+
+async def user_message_cleanup(message):
+    if message.channel.is_private:
+        return
+    if message.channel.permissions_for(message.server.me).manage_messages:
+        await asyncio.sleep(100)
+        await bot.delete_message(message)
+        print('Deleted user message.')
+    else:
+        print("Bot does not have required permissions to delete user messages.")
+
 async def is_Gagged(user_message):
     message = user_message
     #check if channel is gagged
