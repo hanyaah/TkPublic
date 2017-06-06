@@ -2,14 +2,12 @@ import discord
 import asyncio
 import logging
 from discord.ext import commands
-from datetime import datetime, date, time
-from dateutil.relativedelta import relativedelta
 
-#self-created modules below
+# self-created modules below
 import lib.embedCreation as embedCreation #contains functions for creating an embed
 import lib.tekkenFinder as tekkenFinder   #contains functions for finding character and move details
 
-#Nothing to see here, move along
+# Get token from local dir text file
 tokenFile = open("token.txt", 'r')
 token = tokenFile.read()
 tokenFile.close()
@@ -33,7 +31,7 @@ combot_gagged_channels_File.close()
 
 @bot.event
 async def on_ready():
-    #Display Login Status in Console
+    # Display Login Status in Console
     print('<---------------------------->')
     print('Logged in as')
     print(bot.user.name)
@@ -51,8 +49,9 @@ async def on_ready():
 
 @bot.event
 async def on_message(message):
-    #check if message author is a bot
+    # check if message author is a bot
     if message.author.bot:
+        # check if sent by self
         if message.author.id == bot.user.id:
             await bot_message_cleanup(message)
         return
@@ -61,12 +60,12 @@ async def on_message(message):
 
     if message.content.startswith('!'):
         if message.content.startswith('!!'):
-          case_sensitive_toggle = True
+            case_sensitive_toggle = True
         else:
-          case_sensitive_toggle = False
+            case_sensitive_toggle = False
 
-        #message content should look like this
-        #![character] [move]
+        # message content should look like this
+        # ![character] [move]
 
         userMessage = message.content
         userMessage = userMessage.replace("!", "")
@@ -117,28 +116,11 @@ async def on_message(message):
     await bot.process_commands(message)
 
 @bot.command(pass_context=True)
-async def early2017():
-    """Don't let your memes be dreams."""
-    print('MEME MODE ACTIVATED')
-
-    releaseDate = datetime(2017, 6, 1, 21, 45, 0)
-    timeNow = datetime.now()
-    if(timeNow > releaseDate):
-        embed_kungfutime = embedCreation.embed_itistime()
-        await bot.say(embed=embed_kungfutime)
-        return
-
-    timeLeft = relativedelta(releaseDate, timeNow)
-    early2017Str = str(timeLeft.days) + ' days, ' + str(timeLeft.hours) + ' hours,' +str(timeLeft.minutes) + ' minutes UNTIL TEKKEN 7 RELEASES'
-
-    embed_early2017 = embedCreation.embed_early2017(early2017Str, timeLeft)
-    await bot.say(embed=embed_early2017)
-
-@bot.command(pass_context=True)
-async def legend():
+async def legend(ctx):
     """Displays commonly used abbreviations, notations and their corresponding input icons."""
     embed_legend = embedCreation.embed_legend()
     await bot.say(embed = embed_legend)
+    await user_message_cleanup(ctx.message)
 
 @bot.command(pass_context=True)
 @commands.has_permissions(administrator=True)
@@ -180,6 +162,7 @@ async def printServers(ctx):
     if ctx.message.author.id != owner:
         print('Non-bot owner called print server.')
         await bot.say('Command restricted to bot owner only.')
+        await user_message_cleanup(ctx.message)
         return
     else:
         print('Bot Owner called print server.')
@@ -188,19 +171,22 @@ async def printServers(ctx):
     for server in bot.servers:
         serverConctStr = serverConctStr + server.name + '\n'
     await bot.say('Server List: \n' + serverConctStr)
+    await user_message_cleanup(ctx.message)
 
 @bot.command(pass_context=True)
-async def Frame_Data():
+async def Frame_Data(ctx):
     """Use ![character] [move], !! for case-sensitive search"""
+    await user_message_cleanup(ctx.message)
     return
 
 @bot.command(pass_context=True)
 async def invite(ctx):
     """Invite the bot to your server."""
     await bot.say('Use this link to add me to your server. \nhttps://discordapp.com/oauth2/authorize?client_id=302295833208946689&scope=bot&permissions=11264')
+    await user_message_cleanup(ctx.message)
     return
 
-#TODO: This block of code to be used when character html pages are updated, do not edit
+# TODO: This block of code to be used when character html pages are updated, do not edit
 # @bot.command(pass_context=True)
 # async def convertAll(ctx):
 #     """Converts all """
@@ -220,22 +206,23 @@ async def on_command_error(error, ctx):
     if isinstance(error, commands.CheckFailure):
         await bot.send_message(ctx.message.channel, "You don't have permissions to run this.")
 
-#==============================================
-#==========NON COMMAND FUNCTIONS===============
-#==============================================
+# ==============================================
+# ==========NON COMMAND FUNCTIONS===============
+# ==============================================
 async def bot_message_cleanup(message):
     if message.channel.is_private:
         return
     if message.channel.permissions_for(message.server.me).manage_messages:
-        #self delete does not require special permissions, but tying both cleanups to one check for now until I make a controllable toggle.
-        await asyncio.sleep(200)
+        # self delete does not require server permissions,
+        # but tying both cleanups to one check for now until I make a controllable toggle.
+        await asyncio.sleep(80)
         await bot.delete_message(message)
 
 async def user_message_cleanup(message):
     if message.channel.is_private:
         return
     if message.channel.permissions_for(message.server.me).manage_messages:
-        await asyncio.sleep(200)
+        await asyncio.sleep(80)
         await bot.delete_message(message)
     else:
         print("Bot does not have required permissions to delete user messages.")
