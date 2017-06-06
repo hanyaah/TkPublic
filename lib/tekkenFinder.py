@@ -46,7 +46,7 @@ def does_char_exist(user_Chara_Name):
 
 def charJsonMassConverter():
     for game_character in charLocalPageDict:
-        print (game_character)
+        print(game_character)
         charUrl = game_character + '.html'
         get_charJson(charUrl)
 

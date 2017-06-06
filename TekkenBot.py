@@ -29,6 +29,7 @@ bot = commands.Bot(command_prefix=prefix, description=description)
 
 combot_gagged_channels_File = open("lib/gagged_channels.txt", 'r')
 combot_gagged_channels = combot_gagged_channels_File.read().splitlines()
+combot_gagged_channels_File.close()
 
 @bot.event
 async def on_ready():
@@ -45,7 +46,7 @@ async def on_ready():
         await asyncio.sleep(10000)
         await bot.change_presence(game=discord.Game(name='Riri Toppu Tieru'))
         await asyncio.sleep(30)
-        await bot.change_presence(game=discord.Game(name='EARLY 2017'))
+        await bot.change_presence(game=discord.Game(name='TEKKEN 7'))
         await asyncio.sleep(30)
 
 @bot.event
@@ -225,17 +226,17 @@ async def on_command_error(error, ctx):
 async def bot_message_cleanup(message):
     if message.channel.is_private:
         return
-    await asyncio.sleep(100)
-    await bot.delete_message(message)
-    print('Deleted self message.')
+    if message.channel.permissions_for(message.server.me).manage_messages:
+        #self delete does not require special permissions, but tying both cleanups to one check for now until I make a controllable toggle.
+        await asyncio.sleep(200)
+        await bot.delete_message(message)
 
 async def user_message_cleanup(message):
     if message.channel.is_private:
         return
     if message.channel.permissions_for(message.server.me).manage_messages:
-        await asyncio.sleep(100)
+        await asyncio.sleep(200)
         await bot.delete_message(message)
-        print('Deleted user message.')
     else:
         print("Bot does not have required permissions to delete user messages.")
 
