@@ -8,7 +8,7 @@ Although core functionality is complete, this bot is still largely being rewritt
 
 The bot is written in Python, and uses the Discord.py wrapper, BS4, FuzzyWuzzy, and DateUtils.
 
-To run the bot, create a txt file in the same directory as tekkenbot.py, paste your token in it and name it token.txt. Then execute discord.py.
+To run the bot, create a txt file in the same directory as tekkenbot.py, paste your token in it and name it token.txt. Then execute tekkenbot.py.
 
 All frame data is sourced from RBNorway.
 
