@@ -24,6 +24,7 @@ def does_char_exist(user_Chara_Name):
         return False
 
 def charJsonMassConverter():
+    # json folder must be empty of character jsons to work properly
     for game_character in chara_misc_details_json:
         charUrl = game_character['name'] + '.html'
         get_charJson(charUrl)

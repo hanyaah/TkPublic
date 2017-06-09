@@ -29,6 +29,12 @@ combot_gagged_channels_File = open("lib/gagged_channels.txt", 'r')
 combot_gagged_channels = combot_gagged_channels_File.read().splitlines()
 combot_gagged_channels_File.close()
 
+# TODO: YOU LEFT OFF HERE
+file = open('bot_settings.json', 'r+')
+# content = file.read()
+# file.close()
+# stuff = content.loads(content)
+
 @bot.event
 async def on_ready():
     # Display Login Status in Console
