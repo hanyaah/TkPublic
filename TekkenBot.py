@@ -154,6 +154,21 @@ async def ungagcombot(ctx):
     await bot.say('Ungagged Combot. Beep Boop.')
 
 @bot.command(pass_context=True)
+@commands.has_permissions(administrator=True)
+async def cleanup(ctx):
+    """Sets delay (seconds) for auto msg cleanup. Set to 0 for infinite."""
+    channel_id = ctx.message.channel.id
+    timer_seconds = 0
+
+    # read from json file into dict
+    # check for channel id key from dict
+    # if id key exists, modify dict value
+    # if id key does not exist, add dict key-value pair
+    # write dict to json file
+
+    await bot.say('Function not implemented yet.')
+
+@bot.command(pass_context=True)
 async def printServers(ctx):
     """List servers with Combot. Cmd restricted to Bot Owner."""
     appinfo = await bot.application_info()
