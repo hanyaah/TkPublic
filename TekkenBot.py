@@ -81,7 +81,7 @@ async def on_message(message):
           print('! command used, but character not found/move not given\n')
           return
 
-        user_Chara_Name = user_message_list[0]
+        user_Chara_Name = user_message_list[0].lower()
         user_Chara_Move = user_message_list[1]
 
         if user_Chara_Name == 'dvj' or user_Chara_Name == 'deviljin' or user_Chara_Name == 'devil':
@@ -99,7 +99,6 @@ async def on_message(message):
         characterExists = tekkenFinder.does_char_exist(user_Chara_Name)
 
         if characterExists:
-          user_Chara_Name = user_Chara_Name.lower()
           move_attribute_dict = tekkenFinder.get_Move_Details(user_Chara_Name,
                                                               user_Chara_Move,
                                                               case_sensitive_toggle)
