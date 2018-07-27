@@ -69,16 +69,18 @@ def move_Input_Standardizer(move_input):
     # translate shorthand into full notation
     if move_input[:2].lower() == 'wr' and move_input[2] != '+':
         move_input = move_input.lower().replace('wr', 'f,f,f+')
-    if move_input[:2].lower() == 'ss' and move_input[2] != '+':
+    elif move_input[:2].lower() == 'ss' and move_input[2] != '+':
         move_input = move_input.lower().replace('ss', 'ss+')
-    if move_input[:2].lower() == 'ws' and move_input[2] != '+':
+    elif move_input[:2].lower() == 'ws' and move_input[2] != '+':
         move_input = move_input.lower().replace('ws', 'ws+')
-    if move_input[:2].lower() == 'fc' and move_input[2] != '+':
+    elif move_input[:2].lower() == 'fc' and move_input[2] != '+':
         move_input = move_input.lower().replace('fc', 'fc+')
-    if move_input[:2].lower() == 'cd' and move_input[2] != '+':
+    elif move_input[:2].lower() == 'cd' and move_input[2] != '+':
         move_input = move_input.lower().replace('cd', 'f,n,d,df+')
-    if move_input[:3].lower() == 'qcf' and move_input[2] != '+':
-        move_input = move_input.lower().replace('qcf', 'qcf+')
+    elif move_input[:3].lower() == 'qcf':
+        if len(move_input)>3:
+            if move_input[3] != '+':
+                move_input = move_input.lower().replace('qcf', 'qcf+')
     return move_input
 
 

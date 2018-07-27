@@ -14,20 +14,66 @@ chara_misc_details_json = json.loads(content)
 
 
 def does_char_exist(user_Chara_Name):
+    if user_Chara_Name == 'dvj' or user_Chara_Name == 'deviljin' or user_Chara_Name == 'devil':
+        user_Chara_Name = 'devil_jin'
+    elif user_Chara_Name == 'jack':
+        user_Chara_Name = 'jack7'
+    elif user_Chara_Name == 'raven':
+        user_Chara_Name = 'master_raven'
+    elif user_Chara_Name == 'yoshi':
+        user_Chara_Name = 'yoshimitsu'
+    elif user_Chara_Name == 'chloe' or user_Chara_Name == 'lucky':
+        user_Chara_Name = 'lucky_chloe'
+    elif user_Chara_Name == 'ling':
+        user_Chara_Name = 'xiaoyu'
+
     chara_details_dict = list(filter(lambda x: (x['name'] == user_Chara_Name), chara_misc_details_json))
 
     if chara_details_dict:
         print("\n======================")
         print("Chara Found: " + user_Chara_Name)
-        return True
+        return user_Chara_Name
     else:
         return False
 
+
 def charJsonMassConverter():
-    # json folder must be empty of character jsons to work properly
+    dirStr = os.getcwd()
+
     for game_character in chara_misc_details_json:
         charUrl = game_character['name'] + '.html'
-        get_charJson(charUrl)
+        charFilePath = 'file:///' + dirStr + '/webpages/' + charUrl
+        jsonFilePath = dirStr + '/json/' + game_character['name'] + '.json'
+
+        charSpecific = urllib.request.urlopen(charFilePath).read()
+        charPageSoup = BeautifulSoup(charSpecific, "html.parser")
+        moveAttribute_List_of_Dicts = []
+
+        for table_row in charPageSoup.select("table tr"):
+            col = table_row.find_all('td')
+
+            addmove = {
+                "Command": col[0].text,
+                "Hit level": col[1].text,
+                "Damage": col[2].text,
+                "Start up frame": col[3].text,
+                "Block frame": col[4].text,
+                "Hit frame": col[5].text,
+                "Counter hit frame": col[6].text,
+                "Notes": col[7].text
+            }
+
+            if addmove["Command"] == "Command":
+                continue
+
+            for key in addmove:
+                if addmove[key] == "":
+                    addmove[key] = "-"
+
+            moveAttribute_List_of_Dicts.append(addmove)
+
+        file = open(jsonFilePath, 'w')
+        json.dump(moveAttribute_List_of_Dicts, file, indent=4)
 
 
 def get_charJson(chara_Name):

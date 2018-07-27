@@ -30,7 +30,8 @@ combot_gagged_channels = combot_gagged_channels_File.read().splitlines()
 combot_gagged_channels_File.close()
 
 # TODO: YOU LEFT OFF HERE
-file = open('bot_settings.json', 'r+')
+# TODO: MAYBE NEXT TIME FAM
+# file = open('bot_settings.json', 'r+')
 # content = file.read()
 # file.close()
 # stuff = content.loads(content)
@@ -44,10 +45,10 @@ async def on_ready():
     print(bot.user.id)
     print('<---------------------------->')
     while True:
-        await bot.change_presence(game=discord.Game(name='YouLikeADamnFiddle'))
+        await bot.change_presence(game=discord.Game(name='DAH'))
         await asyncio.sleep(30)
-        await bot.change_presence(game=discord.Game(name='.help for assistance'))
-        await asyncio.sleep(10000)
+        await bot.change_presence(game=discord.Game(name='.help'))
+        await asyncio.sleep(120)
         await bot.change_presence(game=discord.Game(name='Riri Toppu Tieru'))
         await asyncio.sleep(30)
         await bot.change_presence(game=discord.Game(name='TEKKEN 7'))
@@ -78,55 +79,46 @@ async def on_message(message):
         user_message_list = userMessage.split(" ", 1)
 
         if len(user_message_list) <= 1:
-          print('! command used, but character not found/move not given\n')
-          return
+            print('! command used, but character not found/move not given\n')
+            return
 
         user_Chara_Name = user_message_list[0]
         user_Chara_Move = user_message_list[1]
 
-        if user_Chara_Name == 'dvj' or user_Chara_Name == 'deviljin' or user_Chara_Name == 'devil':
-            user_Chara_Name = 'devil_jin'
-        if user_Chara_Name == 'jack':
-            user_Chara_Name = 'jack7'
-        if user_Chara_Name == 'raven':
-            user_Chara_Name = 'master_raven'
-        if user_Chara_Name == 'yoshi':
-            user_Chara_Name = 'yoshimitsu'
-        if user_Chara_Name == 'chloe' or user_Chara_Name == 'lucky':
-            user_Chara_Name = 'lucky_chloe'
-
         #TODO: IMPLEMENT CHARACTER SHORTHAND NAME CONVERTER, OR CHARACTER NAMELIST DISPLAY
-        characterExists = tekkenFinder.does_char_exist(user_Chara_Name)
+        character_name_string = tekkenFinder.does_char_exist(user_Chara_Name)
 
-        if characterExists:
-          user_Chara_Name = user_Chara_Name.lower()
-          move_attribute_dict = tekkenFinder.get_Move_Details(user_Chara_Name,
-                                                              user_Chara_Move,
-                                                              case_sensitive_toggle)
+        if character_name_string:
+            user_Chara_Name = character_name_string.lower()
+            move_attribute_dict = tekkenFinder.get_Move_Details(user_Chara_Name,
+                                                                user_Chara_Move,
+                                                                case_sensitive_toggle)
 
-          if move_attribute_dict: #if dictionary not empty, move found
-            embed_MoveFound = await get_MoveFound_Embed(**move_attribute_dict)
-            await bot.send_message(message.channel, embed=embed_MoveFound)
+            if move_attribute_dict:  # if dictionary not empty, move found
+                embed_MoveFound = await get_MoveFound_Embed(**move_attribute_dict)
+                await bot.send_message(message.channel, embed=embed_MoveFound)
 
-          else: #dictionary is empty, move not found
-            embed_SimilarMoves = await get_SimilarMoves_Embed(user_Chara_Name,user_Chara_Move)
-            await bot.send_message(message.channel, embed=embed_SimilarMoves)
+            else:  # dictionary is empty, move not found
+                embed_SimilarMoves = await get_SimilarMoves_Embed(user_Chara_Name,user_Chara_Move)
+                await bot.send_message(message.channel, embed=embed_SimilarMoves)
 
-          await user_message_cleanup(message)
-          return
+            await user_message_cleanup(message)
+            return
 
         else:
-          await bot.send_message(message.channel, 'Character not found: ' + '**' + user_Chara_Name + '**')
-          return
+            await bot.send_message(message.channel, 'Character not found: ' + '**' + user_Chara_Name + '**')
+            return
 
     await bot.process_commands(message)
+
 
 @bot.command(pass_context=True)
 async def legend(ctx):
     """Displays commonly used abbreviations, notations and their corresponding input icons."""
     embed_legend = embedCreation.embed_legend()
-    await bot.say(embed = embed_legend)
+    await bot.say(embed=embed_legend)
     await user_message_cleanup(ctx.message)
+
 
 @bot.command(pass_context=True)
 @commands.has_permissions(administrator=True)
@@ -141,6 +133,7 @@ async def gagcombot(ctx):
 
     await bot.say('Mmmph! Gagging Combot.')
 
+
 @bot.command(pass_context=True)
 @commands.has_permissions(administrator=True)
 async def ungagcombot(ctx):
@@ -150,29 +143,15 @@ async def ungagcombot(ctx):
         combot_gagged_channels.remove(channel)
     else:
         return
-    #clear file contents and rewrite
-    open("lib/gagged_channels.txt","w").close()
-    f = open("lib/gagged_channels.txt","a")
+    # clear file contents and rewrite
+    open("lib/gagged_channels.txt", "w").close()
+    f = open("lib/gagged_channels.txt", "a")
     for channel in combot_gagged_channels:
         f.write(channel+'\n')
     f.close()
 
     await bot.say('Ungagged Combot. Beep Boop.')
 
-@bot.command(pass_context=True)
-@commands.has_permissions(administrator=True)
-async def cleanup(ctx):
-    """Sets delay (seconds) for auto msg cleanup. Set to 0 for infinite."""
-    channel_id = ctx.message.channel.id
-    timer_seconds = 0
-
-    # read from json file into dict
-    # check for channel id key from dict
-    # if id key exists, modify dict value
-    # if id key does not exist, add dict key-value pair
-    # write dict to json file
-
-    await bot.say('Function not implemented yet.')
 
 @bot.command(pass_context=True)
 async def printServers(ctx):
@@ -194,11 +173,13 @@ async def printServers(ctx):
     await bot.say('Server List: \n' + serverConctStr)
     await user_message_cleanup(ctx.message)
 
+
 @bot.command(pass_context=True)
 async def Frame_Data(ctx):
     """Use ![character] [move], !! for case-sensitive search"""
     await user_message_cleanup(ctx.message)
     return
+
 
 @bot.command(pass_context=True)
 async def invite(ctx):
@@ -207,20 +188,21 @@ async def invite(ctx):
     await user_message_cleanup(ctx.message)
     return
 
-# TODO: This block of code to be used when character html pages are updated, do not edit
-# @bot.command(pass_context=True)
-# async def convertAll(ctx):
-#     """Converts all """
-#     appinfo = await bot.application_info()
-#     owner = appinfo.owner.id
-#
-#     if ctx.message.author.id != owner:
-#         await bot.say('Hann forgot to hide this function from help listing, lul')
-#         return
-#     else:
-#         await bot.say('Converting all character htmls to json.')
-#     tekkenFinder.charJsonMassConverter()
-#     return
+
+# This block of code to be used when character html pages are updated, do not edit
+@bot.command(pass_context=True)
+async def convertAll(ctx):
+    """Converts all """
+    appinfo = await bot.application_info()
+    owner = appinfo.owner.id
+
+    if ctx.message.author.id != owner:
+        return
+    else:
+        await bot.say('Converting all character htmls to json.')
+    tekkenFinder.charJsonMassConverter()
+    return
+
 
 @bot.event
 async def on_command_error(error, ctx):
@@ -231,31 +213,45 @@ async def on_command_error(error, ctx):
 # ==========NON COMMAND FUNCTIONS===============
 # ==============================================
 async def bot_message_cleanup(message):
-    if message.channel.is_private:
+    TZ_Server_ID = '165310633884123137'
+    TZ_FrameChannel_ID = '315052762947649536'
+    TestServer_Server_ID = '302481884984639488'
+    TestServer_ChannelID = '303175029884059649'
+    Delay_Seconds = 10
+
+    if message.channel.is_private or message.channel.id == TZ_FrameChannel_ID:
+        # lazy workaround for TZ's frame data channel cuz ppl spam shit in chara channels
+        # dont do shit
         return
+    if message.server.id == TZ_Server_ID:
+        # lazy workaround No.2
+        await asyncio.sleep(Delay_Seconds)
+        await bot.delete_message(message)
+        return
+
     if message.channel.permissions_for(message.server.me).manage_messages:
         # self delete does not require server permissions,
         # but tying both cleanups to one check for now until I make a controllable toggle.
-        await asyncio.sleep(80)
+        await asyncio.sleep(Delay_Seconds)
         await bot.delete_message(message)
+        return
 
 async def user_message_cleanup(message):
+    Delay_Seconds = 15
     if message.channel.is_private:
         return
     if message.channel.permissions_for(message.server.me).manage_messages:
-        await asyncio.sleep(80)
+        await asyncio.sleep(Delay_Seconds)
         await bot.delete_message(message)
-    else:
-        print("Bot does not have required permissions to delete user messages.")
 
 async def is_Gagged(user_message):
     message = user_message
-    #check if channel is gagged
+    # check if channel is gagged
     if message.content != '.ungagcombot':
         for channelID in combot_gagged_channels:
             if message.channel.id == channelID:
                 return True
-    
+
     return False
 
 async def get_MoveFound_Embed(**move_attribute_dict):
