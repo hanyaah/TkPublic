@@ -77,6 +77,13 @@
         "portrait": "https://i.imgur.com/pL9icRr.jpg"
     },
     {
+        "name": "geese",
+        "local_webpage": "geese.html",
+        "local_json": "geese.json",
+        "online_webpage": "http://rbnorway.org/geese-t7-frames",
+        "portrait": "https://i.imgur.com/kAoyBhA.jpg?1"
+    },
+    {
         "name": "gigas",
         "local_webpage": "gigas.html",
         "local_json": "gigas.json",
@@ -215,6 +222,13 @@
         "local_json": "nina.json",
         "online_webpage": "http://rbnorway.org/nina-t7-frames",
         "portrait": "https://i.imgur.com/tLdu5Nq.jpg"
+    },
+	{
+        "name": "noctis",
+        "local_webpage": "noctis.html",
+        "local_json": "noctis.json",
+        "online_webpage": "http://rbnorway.org/noctis-t7-frames",
+        "portrait": "https://i.imgur.com/3Oczy4N.png"
     },
     {
         "name": "paul",
